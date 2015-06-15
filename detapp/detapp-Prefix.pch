@@ -1,0 +1,18 @@
+//
+//  PrefixHeader.pch
+//  detapp
+//
+//  Created by wanghaohua on 15/5/6.
+//  Copyright (c) 2015年 det. All rights reserved.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#endif

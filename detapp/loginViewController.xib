@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="loginViewController">
+            <connections>
+                <outlet property="localhostLogin" destination="TbF-cE-ZhJ" id="QgH-BV-UnK"/>
+                <outlet property="password" destination="kEG-eG-Nb8" id="Eni-hQ-Uhn"/>
+                <outlet property="remoteLogin" destination="tYJ-b9-DLb" id="hID-9M-INr"/>
+                <outlet property="username" destination="BUS-VA-7sl" id="4Kg-Dc-R5T"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="xu7-aF-Q7a"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1658" borderStyle="roundedRect" placeholder="用户编号" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BUS-VA-7sl">
+                    <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="B1C-c9-XJb"/>
+                        <constraint firstAttribute="width" constant="225" id="Msm-Wy-hDc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="B1C-c9-XJb"/>
+                            <exclude reference="Msm-Wy-hDc"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="B1C-c9-XJb"/>
+                            <include reference="Msm-Wy-hDc"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="nameExit:" destination="-1" eventType="editingDidEndOnExit" id="6w5-ge-Obe"/>
+                    </connections>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="5gad" borderStyle="roundedRect" placeholder="密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kEG-eG-Nb8">
+                    <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="225" id="dMm-K4-VE9"/>
+                        <constraint firstAttribute="height" constant="35" id="uod-kB-kYv"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="dMm-K4-VE9"/>
+                            <exclude reference="uod-kB-kYv"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="dMm-K4-VE9"/>
+                            <include reference="uod-kB-kYv"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="pwdExit:" destination="-1" eventType="editingDidEndOnExit" id="aVy-Xe-nVa"/>
+                    </connections>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tYJ-b9-DLb">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <color key="backgroundColor" red="0.43529411764705883" green="0.84705882352941175" blue="0.396078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="mZI-57-Syk"/>
+                        <constraint firstAttribute="width" constant="225" id="mvT-Ix-HJ0"/>
+                    </constraints>
+                    <state key="normal" title="远程登入">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="mZI-57-Syk"/>
+                            <exclude reference="mvT-Ix-HJ0"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="mZI-57-Syk"/>
+                            <include reference="mvT-Ix-HJ0"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="remoteLgoin:" destination="-1" eventType="touchUpInside" id="eMt-9b-ytW"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TbF-cE-ZhJ">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <color key="backgroundColor" red="0.43529411764705883" green="0.84705882352941175" blue="0.396078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="0Xy-OG-wOT"/>
+                        <constraint firstAttribute="width" constant="225" id="gcf-dj-XrE"/>
+                    </constraints>
+                    <state key="normal" title="本地登入">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="0Xy-OG-wOT"/>
+                            <exclude reference="gcf-dj-XrE"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="0Xy-OG-wOT"/>
+                            <include reference="gcf-dj-XrE"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="localhostLogin:" destination="-1" eventType="touchUpInside" id="xqg-L2-thP"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mEA-zC-aaJ">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <color key="backgroundColor" red="0.43529411764705883" green="0.84705882352941175" blue="0.396078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="9Ij-hv-lrJ"/>
+                        <constraint firstAttribute="width" constant="225" id="bzs-mW-lFf"/>
+                    </constraints>
+                    <state key="normal" title="扫一扫登陆">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="9Ij-hv-lrJ"/>
+                            <exclude reference="bzs-mW-lFf"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="9Ij-hv-lrJ"/>
+                            <include reference="bzs-mW-lFf"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="scanning:" destination="-1" eventType="touchUpInside" id="FaU-ZK-qa3"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="kEG-eG-Nb8" secondAttribute="centerY" constant="39" id="0cg-L4-6Gv"/>
+                <constraint firstAttribute="centerY" secondItem="tYJ-b9-DLb" secondAttribute="centerY" constant="-12" id="2R3-Sc-0o2"/>
+                <constraint firstAttribute="centerY" secondItem="TbF-cE-ZhJ" secondAttribute="centerY" constant="-77" id="3T8-OA-6xJ"/>
+                <constraint firstAttribute="centerX" secondItem="tYJ-b9-DLb" secondAttribute="centerX" id="4ov-8N-d10"/>
+                <constraint firstAttribute="centerY" secondItem="mEA-zC-aaJ" secondAttribute="centerY" constant="-142" id="BUM-fn-bAz"/>
+                <constraint firstAttribute="centerY" secondItem="BUS-VA-7sl" secondAttribute="centerY" constant="84" id="YjB-qw-YOR"/>
+                <constraint firstAttribute="centerX" secondItem="BUS-VA-7sl" secondAttribute="centerX" id="a8h-JX-rlt"/>
+                <constraint firstAttribute="centerX" secondItem="TbF-cE-ZhJ" secondAttribute="centerX" id="hK6-Ph-UQJ"/>
+                <constraint firstAttribute="centerX" secondItem="mEA-zC-aaJ" secondAttribute="centerX" id="ozT-s4-e5Y"/>
+                <constraint firstAttribute="centerX" secondItem="kEG-eG-Nb8" secondAttribute="centerX" id="v4d-Uo-WH1"/>
+            </constraints>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="BUS-VA-7sl"/>
+                    <exclude reference="kEG-eG-Nb8"/>
+                    <exclude reference="tYJ-b9-DLb"/>
+                    <exclude reference="TbF-cE-ZhJ"/>
+                    <exclude reference="mEA-zC-aaJ"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="YjB-qw-YOR"/>
+                    <exclude reference="a8h-JX-rlt"/>
+                    <exclude reference="0cg-L4-6Gv"/>
+                    <exclude reference="v4d-Uo-WH1"/>
+                    <exclude reference="3T8-OA-6xJ"/>
+                    <exclude reference="hK6-Ph-UQJ"/>
+                    <exclude reference="BUM-fn-bAz"/>
+                    <exclude reference="ozT-s4-e5Y"/>
+                    <exclude reference="2R3-Sc-0o2"/>
+                    <exclude reference="4ov-8N-d10"/>
+                </mask>
+            </variation>
+            <variation key="widthClass=compact">
+                <mask key="subviews">
+                    <include reference="BUS-VA-7sl"/>
+                    <include reference="kEG-eG-Nb8"/>
+                    <include reference="tYJ-b9-DLb"/>
+                    <include reference="TbF-cE-ZhJ"/>
+                    <include reference="mEA-zC-aaJ"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="YjB-qw-YOR"/>
+                    <include reference="a8h-JX-rlt"/>
+                    <include reference="0cg-L4-6Gv"/>
+                    <include reference="v4d-Uo-WH1"/>
+                    <include reference="3T8-OA-6xJ"/>
+                    <include reference="hK6-Ph-UQJ"/>
+                    <include reference="BUM-fn-bAz"/>
+                    <include reference="ozT-s4-e5Y"/>
+                    <include reference="2R3-Sc-0o2"/>
+                    <include reference="4ov-8N-d10"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="317" y="277"/>
+        </view>
+    </objects>
+</document>

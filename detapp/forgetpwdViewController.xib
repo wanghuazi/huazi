@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="forgetpwdViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="用户编号" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mwk-0m-0jh">
+                    <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="225" id="GsA-1V-CWU"/>
+                        <constraint firstAttribute="height" constant="35" id="cFL-TY-o6l"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="GsA-1V-CWU"/>
+                            <exclude reference="cFL-TY-o6l"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="GsA-1V-CWU"/>
+                            <include reference="cFL-TY-o6l"/>
+                        </mask>
+                    </variation>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入新密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Qf-2Y-jaL">
+                    <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="225" id="DIq-Xn-sCz"/>
+                        <constraint firstAttribute="height" constant="35" id="dgf-bZ-zVd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="DIq-Xn-sCz"/>
+                            <exclude reference="dgf-bZ-zVd"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="DIq-Xn-sCz"/>
+                            <include reference="dgf-bZ-zVd"/>
+                        </mask>
+                    </variation>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="重新输入新密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XNg-Wx-Iyt">
+                    <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="H8t-ug-WNr"/>
+                        <constraint firstAttribute="width" constant="225" id="Vxy-Xo-J0e"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="H8t-ug-WNr"/>
+                            <exclude reference="Vxy-Xo-J0e"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="H8t-ug-WNr"/>
+                            <include reference="Vxy-Xo-J0e"/>
+                        </mask>
+                    </variation>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zZS-rX-NEX">
+                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                    <color key="backgroundColor" red="0.43529411759999997" green="0.84705882349999995" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="225" id="Y3d-XL-0Hd"/>
+                        <constraint firstAttribute="height" constant="40" id="etu-QD-Le8"/>
+                    </constraints>
+                    <state key="normal" title="确认传送">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Y3d-XL-0Hd"/>
+                            <exclude reference="etu-QD-Le8"/>
+                        </mask>
+                    </variation>
+                    <variation key="widthClass=compact">
+                        <mask key="constraints">
+                            <include reference="Y3d-XL-0Hd"/>
+                            <include reference="etu-QD-Le8"/>
+                        </mask>
+                    </variation>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="6Qf-2Y-jaL" secondAttribute="centerY" constant="73" id="3G1-hl-BB8"/>
+                <constraint firstAttribute="centerX" secondItem="XNg-Wx-Iyt" secondAttribute="centerX" id="5ef-Ez-dY2"/>
+                <constraint firstAttribute="centerY" secondItem="XNg-Wx-Iyt" secondAttribute="centerY" constant="28" id="Dkl-I4-qok"/>
+                <constraint firstAttribute="centerY" secondItem="zZS-rX-NEX" secondAttribute="centerY" constant="-22" id="E0h-9v-QXZ"/>
+                <constraint firstAttribute="centerY" secondItem="Mwk-0m-0jh" secondAttribute="centerY" constant="118" id="d3c-yI-QAs"/>
+                <constraint firstAttribute="centerX" secondItem="Mwk-0m-0jh" secondAttribute="centerX" id="e29-1L-X19"/>
+                <constraint firstAttribute="centerX" secondItem="6Qf-2Y-jaL" secondAttribute="centerX" id="zGZ-m7-Tca"/>
+                <constraint firstAttribute="centerX" secondItem="zZS-rX-NEX" secondAttribute="centerX" id="zxW-8O-3d2"/>
+            </constraints>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="Mwk-0m-0jh"/>
+                    <exclude reference="6Qf-2Y-jaL"/>
+                    <exclude reference="XNg-Wx-Iyt"/>
+                    <exclude reference="zZS-rX-NEX"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="3G1-hl-BB8"/>
+                    <exclude reference="zGZ-m7-Tca"/>
+                    <exclude reference="d3c-yI-QAs"/>
+                    <exclude reference="e29-1L-X19"/>
+                    <exclude reference="5ef-Ez-dY2"/>
+                    <exclude reference="Dkl-I4-qok"/>
+                    <exclude reference="E0h-9v-QXZ"/>
+                    <exclude reference="zxW-8O-3d2"/>
+                </mask>
+            </variation>
+            <variation key="widthClass=compact">
+                <mask key="subviews">
+                    <include reference="Mwk-0m-0jh"/>
+                    <include reference="6Qf-2Y-jaL"/>
+                    <include reference="XNg-Wx-Iyt"/>
+                    <include reference="zZS-rX-NEX"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="3G1-hl-BB8"/>
+                    <include reference="zGZ-m7-Tca"/>
+                    <include reference="d3c-yI-QAs"/>
+                    <include reference="e29-1L-X19"/>
+                    <include reference="5ef-Ez-dY2"/>
+                    <include reference="Dkl-I4-qok"/>
+                    <include reference="E0h-9v-QXZ"/>
+                    <include reference="zxW-8O-3d2"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>
