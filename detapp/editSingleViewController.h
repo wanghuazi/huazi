@@ -23,6 +23,7 @@
     NSString *minute;
     NSString *seconds;
     Byte *singleByte;
+    UIView *timeView;
 }
 @property (nonatomic, retain) NSData *singleData;
 

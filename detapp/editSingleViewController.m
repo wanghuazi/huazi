@@ -121,21 +121,19 @@
     [openImg addGestureRecognizer:tapgesture];
     
     
-    UITapGestureRecognizer *timegesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setTimeViewFunction)];
-    
-    UILabel *hourTextfield = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH*0.0312, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
+    UIButton *hourTextfield = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH*0.0312, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
     hourTextfield.backgroundColor = RGB(214,216,217,1);
     [self.view addSubview:hourTextfield];
-    [hourTextfield addGestureRecognizer:timegesture];
+    [hourTextfield addTarget:self action:@selector(setTimeViewFunction) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH*0.47, APP_HEIGHT*0.889, 20, APP_HEIGHT*0.07)];
     textLabel.text = @"至";
     [self.view addSubview:textLabel];
     
-    UILabel *minuteTextfield = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH*0.586, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
+    UIButton *minuteTextfield = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH*0.586, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
     minuteTextfield.backgroundColor = RGB(214,216,217,1);
     [self.view addSubview:minuteTextfield];
-    [minuteTextfield addGestureRecognizer:timegesture];
+    [minuteTextfield addTarget:self action:@selector(setTimeViewFunction) forControlEvents:UIControlEventTouchUpInside];
     
 //    UIButton *changeUserName = [[UIButton alloc] init];
 //    changeUserName.frame = CGRectMake(10, 300, 100, 100);
@@ -194,7 +192,7 @@
 - (void)setTimeViewFunction
 {NSLog(@"setTimeViewFunction");
     [self.navigationController.navigationBar setHidden:YES];
-    UIView *timeView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    timeView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     timeView.backgroundColor = [UIColor blackColor];
     [timeView setAlpha:0.8];
     [self.view addSubview:timeView];
@@ -214,7 +212,20 @@
     hourTextField.text = hourStr;
     [timeView addSubview:hourTextField];
     
+    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 20, 80, 40)];
+    closeBtn.backgroundColor = [UIColor redColor];
+    [closeBtn addTarget:self action:@selector(closeTimeView) forControlEvents:UIControlEventTouchUpInside];
+    [timeView addSubview:closeBtn];
 }
+
+#pragma mark - close function
+- (void)closeTimeView
+{
+    [timeView removeFromSuperview];
+}
+
+
+#pragma mark - sigle control
 
 - (void)colorChange
 {
