@@ -19,12 +19,13 @@
     UISlider *colorSlider;
     UISlider *brightSlider;
     UISlider *saturationSlider;
-    NSString *hourStr;
-    NSString *minute;
     NSString *seconds;
     Byte *singleByte;
-    UIView *timeView;
+    NSInteger isLight;   //1代表灯亮，0代表灯关，2代表没值
+    UIButton *openImg;
+    NSData *singleInfo;
+    NSData *openInfo;
 }
-@property (nonatomic, retain) NSData *singleData;
+@property (nonatomic, retain) NSArray *singleData;
 
 @end

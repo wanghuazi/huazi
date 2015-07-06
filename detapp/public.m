@@ -47,6 +47,8 @@
     return str;
 }
 
+
+#pragma mark - get image color
 + (UIColor*) getPixelColorAtLocation:(CGPoint)point image:(UIImage*)image{
     UIColor* color = nil;
     CGImageRef inImage = image.CGImage;
@@ -93,6 +95,7 @@
     
     return color;
 }
+
 
 + (CGContextRef) createARGBBitmapContextFromImage:(CGImageRef) inImage
 {

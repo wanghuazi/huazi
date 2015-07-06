@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface editDoubleViewController : UIViewController
+{
+    UITableView *listWithSingle;
+}
+
+@property (nonatomic, retain) NSData *doubleData;
 
 @end

@@ -1,8 +1,8 @@
 //
-//  sigleCellTableViewCell.h
+//  doubleTableViewCell.h
 //  detapp
 //
-//  Created by wanghaohua on 15/5/20.
+//  Created by wanghaohua on 15/6/21.
 //  Copyright (c) 2015年 det. All rights reserved.
 //
 
@@ -11,13 +11,13 @@
 #import "socketController.h"
 
 
-@interface sigleTableViewCell : UITableViewCell<socketControllerDelegate>
+@interface doubleTableViewCell : UITableViewCell
 {
     NSInteger isLight;   //1代表灯亮，0代表灯关，2代表没值
-    NSMutableArray *openWithArr;
+    NSData *doubleWithData;
     
 }
 @property (nonatomic, retain) NSData *cellData;
-- (void) createCell:(NSMutableArray*)arrWithData;
+- (void) createCell:(NSData*)data;
 
 @end

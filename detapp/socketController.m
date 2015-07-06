@@ -16,13 +16,14 @@
 @synthesize asyncSocket=_asyncSocket;
 @synthesize snArr;
 @synthesize singleArr;
+@synthesize doubleArr;
 
 static socketController *socketConnect = nil;
 
 -(id)init
 {
     self = [super init];
-    singleArr = [[NSMutableArray alloc] init];
+//    singleArr = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -197,7 +198,6 @@ static socketController *socketConnect = nil;
 - (void)onSocket:(AsyncSocket *)sock didWriteDataWithTag:(long)tag
 {
     //    [sock readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];  // 这句话仅仅接收\r\n的数据
-    NSLog(@"didWriteDataWithTag");
     [sock readDataWithTimeout:-1 tag:0];
     
 }
@@ -206,11 +206,12 @@ static socketController *socketConnect = nil;
     Byte *typeByte = (Byte *)[data bytes];
     NSString *typeString = [NSString stringWithFormat:@"%d", typeByte[2]];
     
-    NSArray *typeArr = [[NSArray alloc] initWithObjects:@"10", @"11", @"12", @"31", @"80", nil];
+    NSArray *typeArr = [[NSArray alloc] initWithObjects:@"10", @"11", @"31", @"80", nil];
     NSData *dataString = nil;
+    
     if ([typeArr containsObject:typeString]) {
         if ([typeString isEqual:@"31"]) {
-            NSLog(@"heartinfo");
+            NSLog(@"heartinfo1");
         } else {
         NSInteger dataStringLength = [data length] - 6;
         dataString = [data subdataWithRange:NSMakeRange(6, dataStringLength)];
@@ -224,7 +225,6 @@ static socketController *socketConnect = nil;
         }
     }
     
-    NSLog(@"tcpdidReadData %@", data);
     [sock readDataWithTimeout:-1 tag:0];
     
 }

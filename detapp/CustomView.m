@@ -24,7 +24,7 @@
 //    UIColor*aColor = RGB(255, 0, 0, 0.8);
     CGContextSetFillColorWithColor(context, self.color.CGColor);//填充颜色
     
-    if (self.isRing) {NSLog(@"isRing");
+    if (self.isRing) {
         CGContextSetLineWidth(context, 1.0);//线的宽度
     } else {
         CGContextSetLineWidth(context, 0.0);//线的宽度

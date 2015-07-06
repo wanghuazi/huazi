@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "NDMenuViewController.h"
 
+
 @interface allListViewController ()
 
 @end
@@ -112,7 +113,7 @@
     unsigned long index = viewT.tag;
     BOOL isContent = false;
     if (index == 1) {
-        isContent = true;
+//        isContent = true;
         Byte byte[14];
         byte[0] = 0x0E;
         byte[1] = 0x00;
@@ -131,7 +132,7 @@
 //            return NO;
 //        }
     }
-    
+    isContent = true;
     if (isContent) {
         [self enterView:index];
     } else {
@@ -152,6 +153,7 @@
     frostedViewController.menuViewSize = CGSizeMake(APP_WIDTH*0.4, APP_HEIGHT);
     
     singleViewController *singleView = [[singleViewController alloc] initWithNibName:@"singleViewController" bundle:nil];
+//    testViewController *singleView = [[testViewController alloc] initWithNibName:@"testViewController" bundle:nil];
     UINavigationController *singleNavigation = [[UINavigationController alloc] initWithRootViewController:singleView];
     doubleViewController *doubleView = [[doubleViewController alloc] initWithNibName:@"doubleViewController" bundle:nil];
     UINavigationController *doubleNavigation = [[UINavigationController alloc] initWithRootViewController:doubleView];

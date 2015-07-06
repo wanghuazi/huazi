@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "socketController.h"
 
-@interface doubleViewController : UITableViewController<socketControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface doubleViewController : UIViewController<socketControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 {
-    
+    NSData *singleData;
+    NSInteger doubleIndex;
+    UITableView *doubleTableView;
 }
 @property (retain, nonatomic) NSArray *titles;
-
 @end

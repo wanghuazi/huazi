@@ -7,16 +7,45 @@
 //
 
 #import "editDoubleViewController.h"
+#import "Header.h"
 
 @interface editDoubleViewController ()
 
 @end
 
 @implementation editDoubleViewController
+@synthesize doubleData;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.title = @"组合编辑";
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"color_background"]]];
+    
+    [self.tabBarController.tabBar setHidden:YES];
+    //修改navigattionbar
+    [self.navigationController.navigationBar setHidden:NO];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.clipsToBounds = YES;
+    //修改leftBarButtonItem样式
+    UIImageView *itemImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backward_btn"]];
+    UITapGestureRecognizer *goBackTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goback)];
+    itemImageView.userInteractionEnabled = YES;
+    [itemImageView addGestureRecognizer:goBackTap];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:itemImageView];
+    self.navigationItem.leftBarButtonItem = backButton;
+    
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 70, APP_WIDTH, 85)];
+    [self.view addSubview:titleView];
+    
+    UIImageView *lightImgView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 80, 70)];
+    lightImgView.image = [UIImage imageNamed:@"bangongshi"];
+    [titleView addSubview:lightImgView];
+    
+}
+
+- (void)goback
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

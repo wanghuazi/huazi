@@ -12,6 +12,7 @@
 #import "CustomViewYuan.h"
 #import "public.h"
 #import "timeViewController.h"
+#import "TimeViewController.h"
 
 
 @interface editSingleViewController ()
@@ -23,14 +24,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"DET-04"]]];
+    
     [self.tabBarController.tabBar setHidden:YES];
     self.title = @"单灯编辑";
     
     SOCKETLAST.delegate = self;
-    singleByte = (Byte*)[self.singleData bytes];
-    [self requestColor];
     
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"color_background"]]];
     //修改navigattionbar
     [self.navigationController.navigationBar setHidden:NO];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -43,6 +43,30 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:itemImageView];
     self.navigationItem.leftBarButtonItem = backButton;
     
+    singleInfo = [self.singleData firstObject];
+    singleByte = (Byte*)[singleInfo bytes];
+    integer_t onlineOfOrder = 11 + singleByte[10];
+    
+    if (singleByte[onlineOfOrder] != 0x00) { //判断灯是否在线
+    
+    Byte nameByte[singleByte[10]];
+    for (integer_t i=0; i<singleByte[10]; i++) {
+        nameByte[i] = singleByte[11+i];
+    }
+    NSData *asdata = [[NSData alloc] initWithBytes:nameByte length:sizeof(nameByte)];
+    NSString *nameStr = [public stringGB2312FromHex:asdata];
+    
+    
+    openInfo = [self.singleData objectAtIndex:1];
+    Byte *openByte = (Byte *)[openInfo bytes];
+    if (openByte[5] == 0x01) {
+        isLight = 1;
+    } else if(openByte[5] == 0x00) {
+        isLight = 0;
+    }
+    
+    
+    
     //light info row
     UIView *infoTitle = [[UIView alloc] initWithFrame:CGRectMake(0, APP_HEIGHT*0.13, APP_WIDTH, APP_HEIGHT*0.13)];
     [self.view addSubview:infoTitle];
@@ -52,7 +76,7 @@
     [infoTitle addSubview:lightImgView];
     
     UILabel *lightTitle = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH*0.22 + 10, 12, 150, 20)];
-    lightTitle.text = @"7w灯泡";
+    lightTitle.text = nameStr;
     [infoTitle addSubview:lightTitle];
     UILabel *colorLabel = [[UILabel alloc] initWithFrame:CGRectMake(APP_WIDTH*0.22 + 10, 35, 50, 20)];
     colorLabel.text = @"颜色";
@@ -79,10 +103,12 @@
     [colorSlider setBackgroundColor:[UIColor colorWithPatternImage:colorImage]];
     [self.view addSubview:colorSlider];
     [colorSlider addTarget:self action:@selector(colorChange) forControlEvents:UIControlEventValueChanged];
+    [colorSlider addTarget:self action:@selector(changeColor) forControlEvents:UIControlEventTouchUpInside];
+    
     
     showColorView = [[CustomViewYuan alloc] initWithFrame:CGRectMake(110, APP_HEIGHT*0.28, APP_HEIGHT*0.1585, APP_HEIGHT*0.1585)];
+    showColorView.color = RGB(195, 56, 255, 1);
     [self.view addSubview:showColorView];
-    [self colorChange];
     
     UILabel *brightText = [[UILabel alloc] initWithFrame:CGRectMake(20, APP_HEIGHT*0.555, APP_WIDTH-20, APP_HEIGHT*0.0176)];
     brightText.text = @"亮度";
@@ -114,11 +140,15 @@
     timeLabel.text = @"定期开关";
     [timeView addSubview:timeLabel];
     
-    UIImageView *openImg = [[UIImageView alloc] initWithFrame:CGRectMake(APP_WIDTH*0.8, 0, 34, 34)];
-    openImg.image = [UIImage imageNamed:@"on_btn"];
-    [timeLabel addSubview:openImg];
-    UITapGestureRecognizer *tapgesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setOpen)];
-    [openImg addGestureRecognizer:tapgesture];
+    openImg = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH*0.8, 0, 34, 34)];
+    if (isLight == 1) {
+        [openImg setBackgroundImage:[UIImage imageNamed:@"on_btn"] forState:UIControlStateNormal];
+    } else {
+        [openImg setBackgroundImage:[UIImage imageNamed:@"off_btn"] forState:UIControlStateNormal];
+    }
+    
+    [openImg addTarget:self action:@selector(setOpen:) forControlEvents:UIControlEventTouchUpInside];
+    [timeView addSubview:openImg];
     
     
     UIButton *hourTextfield = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH*0.0312, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
@@ -134,12 +164,36 @@
     minuteTextfield.backgroundColor = RGB(214,216,217,1);
     [self.view addSubview:minuteTextfield];
     [minuteTextfield addTarget:self action:@selector(setTimeViewFunction) forControlEvents:UIControlEventTouchUpInside];
-    
+    } else {
+        UIButton *bingBtn = [[UIButton alloc] initWithFrame:CGRectMake((APP_WIDTH-200)/2, APP_HEIGHT*0.3, 200, 50)];
+        [bingBtn setTitle:@"绑定" forState:UIControlStateNormal];
+        [bingBtn setTintColor:[UIColor whiteColor]];
+        bingBtn.backgroundColor = [UIColor redColor];
+        [bingBtn addTarget:self action:@selector(bingSingle) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:bingBtn];
+    }
 //    UIButton *changeUserName = [[UIButton alloc] init];
 //    changeUserName.frame = CGRectMake(10, 300, 100, 100);
 //    changeUserName.backgroundColor = [UIColor redColor];
 //    [self.view addSubview:changeUserName];
 //    [changeUserName addTarget:self action:@selector(changeUserName) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)bingSingle
+{
+    NSData *bingData;
+    NSInteger IEEE = 12+singleByte[10];
+    
+    if (SOCKETLAST.typeSocket == 1) {
+        Byte byte[] = {0x0E, 0x00, 0x0c, 0x00,0x08, 0x00,0x08, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x81};
+        bingData = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
+    } else {
+        Byte byte[] = {0x1F, 0x00, SOCKETLAST.sn4, SOCKETLAST.sn3, SOCKETLAST.sn2, SOCKETLAST.sn1, 0xFE, 0x89,0x04,singleByte[2],singleByte[3],0x0B,singleByte[IEEE],singleByte[IEEE+1],singleByte[IEEE+2],singleByte[IEEE+3],singleByte[IEEE+4],singleByte[IEEE+5],singleByte[IEEE+6],singleByte[IEEE+7],0x0D,singleByte[IEEE],singleByte[IEEE+1],singleByte[IEEE+2],singleByte[IEEE+3],singleByte[IEEE+4],singleByte[IEEE+5],singleByte[IEEE+6],singleByte[IEEE+7],0x06,0x04};
+        bingData = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
+    }
+    
+    BOOL sisd = [SOCKETLAST writeData:bingData];
+    NSLog(@"bingSingle %@ and %d", bingData, sisd);
 }
 
 - (void)goback
@@ -148,81 +202,210 @@
 }
 
 #pragma mark get single info
--(void)requestColor
-{
-    NSData *colorData;
-    if (SOCKETLAST.typeSocket == 1) {
-        Byte colorByte[] = {0x0E, 0x00, 0x0c, 0x00,0x08, 0x00,0x08, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x81};
-        colorData = [[NSData alloc] initWithBytes:colorByte length:sizeof(colorByte)];
-    } else {
-        Byte colorByte[] = {0x15, 0x00, SOCKETLAST.sn4, SOCKETLAST.sn3, SOCKETLAST.sn2, SOCKETLAST.sn1, 0xFE, 0x87, 0x0c, 0x02, singleByte[2],singleByte[3], 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0B, 0x00, 0x00};
-        colorData = [[NSData alloc] initWithBytes:colorByte length:sizeof(colorByte)];
-        NSLog(@"switchSendData %@ %lu", colorData, sizeof(colorByte));
-    }
-    
-    [SOCKETLAST writeData:colorData];
-    
-}
+//-(void)getOpen
+//{
+//    NSData *colorData;
+//    if (SOCKETLAST.typeSocket == 1) {
+//        Byte colorByte[] = {0x0E, 0x00, 0x0c, 0x00,0x08, 0x00,0x08, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x81};
+//        colorData = [[NSData alloc] initWithBytes:colorByte length:sizeof(colorByte)];
+//    } else {
+//        Byte colorByte[] = {0x15, 0x00, SOCKETLAST.sn4, SOCKETLAST.sn3, SOCKETLAST.sn2, SOCKETLAST.sn1, 0xFE, 0x85, 0x0C, 0x02, singleByte[2],singleByte[3], 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0B, 0x00, 0x00};
+//        colorData = [[NSData alloc] initWithBytes:colorByte length:sizeof(colorByte)];
+//    }
+//    
+//    [SOCKETLAST writeData:colorData];
+//}
 
-- (void)setOpen
+
+- (void)setOpen:(id)sender
 {
-    //    Byte byte[] = {0x10,0x00,0x0c,0x00,0x10,0x00,0x10,0x00,0xFF,0xFF,0xFF,0xFF,0xFE,0x94,0x7,0xf3,0x55,0x0B,0x03,0x61,0x62,0x63};
     NSData *adata;
     if (SOCKETLAST.typeSocket == 1) {
        Byte byte[] = {0x16,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x82,0x0D,0x02,0xf3,0x55,0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,0x00};
         adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
     } else {
-       Byte byte[] = {0x16,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x82,0x0D,0x02,0xf3,0x55,0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,0x00};
-        adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
+        if (isLight == 0) {
+            Byte byte[] = {0x16,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x82,0x0D,0x02,singleByte[2],singleByte[3],0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,0x01};
+            adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
+            isLight = 1;
+            [sender setBackgroundImage:[UIImage imageNamed:@"on_btn"] forState:UIControlStateNormal];
+        } else if (isLight == 1) {
+            Byte byte[] = {0x16,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x82,0x0D,0x02,singleByte[2],singleByte[3],0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,0x00};
+            adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
+            isLight = 0;
+            [sender setBackgroundImage:[UIImage imageNamed:@"off_btn"] forState:UIControlStateNormal];
+        }
     }
     
     [SOCKETLAST writeData:adata];
-    NSLog(@"changeUserName %@", adata);
 }
 
 - (void)changeUserName
 {
 //    Byte byte[] = {0x10,0x00,0x0c,0x00,0x10,0x00,0x10,0x00,0xFF,0xFF,0xFF,0xFF,0xFE,0x94,0x7,0xf3,0x55,0x0B,0x03,0x61,0x62,0x63};
-//    Byte byte[] = {0x16,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x82,0x0D,0x02,0xf3,0x55,0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,0x00};
-//    NSData *adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
-//    [SOCKETLAST writeData:adata];
-//    NSLog(@"changeUserName %@ %lu", adata, sizeof(byte));
+    Byte byte[] = {0x19,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x84,0x10,0x02,0xf3,0x55,0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,0x00};
+    NSData *adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
+    [SOCKETLAST writeData:adata];
+    NSLog(@"changeUserName %@ %lu", adata, sizeof(byte));
 }
+
+- (void)changeColor
+{
+    CGPoint point = CGPointMake(600*colorSlider.value, 7);
+    UIColor *lightColor = [public getPixelColorAtLocation:point image:colorImage];
+    
+    const CGFloat* components = CGColorGetComponents(lightColor.CGColor);
+    const CGFloat *colorValue = [self rgbToHsl:components];//颜色，亮度，饱和度
+    const float colorSB = colorValue[0];
+    const float colorSC = colorValue[2];
+    Byte colorHex = strtoul([[public ToHex:colorSB] UTF8String],0,16);
+    Byte lightHex = strtoul([[public ToHex:colorSC] UTF8String],0,16);
+
+    
+    Byte byte[] = {0x19,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x84,0x10,0x02,singleByte[2],singleByte[3],0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,colorHex,lightHex,0x00,0x00};
+    NSData *adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
+    NSLog(@"colorValueNSData %@ ",adata);
+    [SOCKETLAST writeData:adata];
+}
+
+//- (void)setTimeViewFunction
+//{NSLog(@"setTimeViewFunction");
+//    [self.navigationController.navigationBar setHidden:YES];
+//    timeView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    timeView.backgroundColor = [UIColor blackColor];
+//    [timeView setAlpha:0.8];
+//    [self.view addSubview:timeView];
+//    
+//    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, APP_WIDTH, 20)];
+//    [titleLabel setTextAlignment:NSTextAlignmentCenter];
+//    [titleLabel setTextColor:[UIColor whiteColor]];
+//    [titleLabel setText:@"输入开始时间"];
+//    [timeView addSubview:titleLabel];
+//    
+//    UILabel *hourTextField = [[UILabel alloc] initWithFrame:CGRectMake(30, 100, 70, 70)];
+//    if (!hourStr) {
+//        hourStr = @"00";
+//    }
+//    [hourTextField setTextAlignment:NSTextAlignmentCenter];
+//    hourTextField.backgroundColor = [UIColor whiteColor];
+//    hourTextField.text = hourStr;
+//    [timeView addSubview:hourTextField];
+//    
+//    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 20, 80, 40)];
+//    closeBtn.backgroundColor = [UIColor redColor];
+//    [closeBtn addTarget:self action:@selector(closeTimeView) forControlEvents:UIControlEventTouchUpInside];
+//    [timeView addSubview:closeBtn];
+//}
+
+
+/**
+ * 把颜色转为色调（hsl）
+ *
+ * @param rgb
+ * @return
+ */
+-(CGFloat*)rgbToHsl:(CGFloat*)arr
+{
+    CGFloat btyeRGB[3];
+//    NSMutableArray *rgbValueArr = [NSMutableArray array];
+//    NSInteger rInt = [arr objectAtIndex:0];
+    CGFloat R = arr[0];
+//    NSInteger gInt = [arr objectAtIndex:1];
+    CGFloat G = arr[1];
+    
+//    NSInteger bInt = [arr objectAtIndex:2];
+    CGFloat B = arr[2];
+    CGFloat max, min,diff, r_dist, g_dist, b_dist;
+    max = MAX(MAX(R, G), B);
+    min = MIN(MIN(R, G), B);
+    diff = max - min;
+    btyeRGB[2] = (max + min) / 2*100;
+    if (diff == 0.f) {
+        btyeRGB[0] = 0.f;
+        btyeRGB[1] = 0.f;
+        NSLog(@"diff = 0");
+    } else {
+        if (btyeRGB[2] < 0.5) {NSLog(@"diff = 0.5");
+            btyeRGB[1] = (diff / (max + min)) * 100;
+        } else {
+            btyeRGB[1] = diff / ((2 - max - min)) * 100;
+            NSLog(@"diff > 0.5 %f", btyeRGB[1]);
+        }
+        r_dist = (max - R) / diff;
+        g_dist = (max - G) / diff;
+        b_dist = (max - B) / diff;
+        if (R == max) {
+            btyeRGB[0] = b_dist - g_dist;
+        } else if (G == max) {
+            btyeRGB[0] = 2 + r_dist - b_dist;
+        } else if (B == max) {
+            btyeRGB[0] = 4 + g_dist - r_dist;
+        }
+        btyeRGB[0] = btyeRGB[0] * 60;
+        if (btyeRGB[0] < 0) {
+            btyeRGB[0] += 360;
+        }
+        if (btyeRGB[0] >= 360) {
+            btyeRGB[0] -= 360;
+        }
+    }
+    NSLog(@"diff sss 0.5 %f", btyeRGB[1]);
+    return btyeRGB;
+}
+
+//-(void) getHsl:(NSArray*)arr {
+////    float[] hsl = new float[3];
+//    
+//    float R = arr[0] / 255.f;
+//    float G = arr[1] / 255.f;
+//    float B = arr[2] / 255.f;
+//    float max, min, diff, r_dist, g_dist, b_dist;
+//    max = Math.max(Math.max(R, G), B);
+//    min = Math.min(Math.min(R, G), B);
+//    diff = max - min;
+//    hsl[2] = (max + min) / 2*100;
+//    if (diff == 0.f) {
+//        hsl[0] = 0.f;
+//        hsl[1] = 0.f;
+//    } else {
+//        if (hsl[2] < 0.5) {
+//            hsl[1] = (diff / (max + min)) * 100;
+//        } else {
+//            hsl[1] = diff / ((2 - max - min)) * 100;
+//        }
+//        r_dist = (max - R) / diff;
+//        g_dist = (max - G) / diff;
+//        b_dist = (max - B) / diff;
+//        if (R == max) {
+//            hsl[0] = b_dist - g_dist;
+//        } else if (G == max) {
+//            hsl[0] = 2 + r_dist - b_dist;
+//        } else if (B == max) {
+//            hsl[0] = 4 + g_dist - r_dist;
+//        }
+//        hsl[0] = hsl[0] * 60;
+//        if (hsl[0] < 0) {
+//            hsl[0] += 360;
+//        }
+//        if (hsl[0] >= 360) {
+//            hsl[0] -= 360;
+//        }
+//
+//    }
+//    return hsl;
+//}
 
 - (void)setTimeViewFunction
-{NSLog(@"setTimeViewFunction");
-    [self.navigationController.navigationBar setHidden:YES];
-    timeView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    timeView.backgroundColor = [UIColor blackColor];
-    [timeView setAlpha:0.8];
-    [self.view addSubview:timeView];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, APP_WIDTH, 20)];
-    [titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [titleLabel setTextColor:[UIColor whiteColor]];
-    [titleLabel setText:@"输入开始时间"];
-    [timeView addSubview:titleLabel];
-    
-    UILabel *hourTextField = [[UILabel alloc] initWithFrame:CGRectMake(30, 100, 70, 70)];
-    if (!hourStr) {
-        hourStr = @"00";
-    }
-    [hourTextField setTextAlignment:NSTextAlignmentCenter];
-    hourTextField.backgroundColor = [UIColor whiteColor];
-    hourTextField.text = hourStr;
-    [timeView addSubview:hourTextField];
-    
-    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 20, 80, 40)];
-    closeBtn.backgroundColor = [UIColor redColor];
-    [closeBtn addTarget:self action:@selector(closeTimeView) forControlEvents:UIControlEventTouchUpInside];
-    [timeView addSubview:closeBtn];
+{
+    TimeViewController *timeViewC = [[TimeViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:timeViewC];
+    nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    nav.view.backgroundColor = [UIColor blackColor];
+    [nav.view setAlpha:0.8];
+//    nav.navigationBarHidden = YES;
+    [self presentViewController:nav animated:NO completion:nil];
 }
 
-#pragma mark - close function
-- (void)closeTimeView
-{
-    [timeView removeFromSuperview];
-}
 
 
 #pragma mark - sigle control
@@ -231,7 +414,6 @@
 {
     CGPoint point = CGPointMake(600*colorSlider.value, 7);
     UIColor *lightColor = [public getPixelColorAtLocation:point image:colorImage];
-//    showColorView.backgroundColor = lightColor;
     showColorView.color = lightColor;
     [showColorView setNeedsDisplay];
 }
@@ -244,9 +426,18 @@
 #pragma mark socketControllerDelegate
 -(void)readData:(NSData *)data remoteType:(NSString *)type
 {
-//    NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"colordataStr %@", data);
-    //    self.titles =  @[dataStr];
+//    Byte *singleByte = (Byte *)[data bytes];
+//    if (singleByte[0] == 0x07) {
+//        if (singleByte[5] == 0x01) {
+//            isLight = 1;
+//            [openImg setBackgroundImage:[UIImage imageNamed:@"on_btn"] forState:UIControlStateNormal];
+//        } else if(singleByte[5] == 0x00) {
+//            isLight = 0;
+//            [openImg setBackgroundImage:[UIImage imageNamed:@"off_btn"] forState:UIControlStateNormal];
+//        } else {
+//            isLight = 2;
+//        }
+//    }
 }
 
 -(void)socketStatus:(BOOL)status

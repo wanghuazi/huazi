@@ -33,6 +33,7 @@
 @property (nonatomic) unsigned long sn4;
 @property (nonatomic) integer_t typeSocket;  //1代表远程连接，2代表本地连接, 0代表还没有连接
 @property (nonatomic, retain) NSMutableArray *singleArr;
+@property (nonatomic, retain) NSMutableArray *doubleArr;
 
 +(socketController *)initSockeController;
 - (NSString *)getIPAddress;
