@@ -8,11 +8,27 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TimeViewController : UIViewController
+@protocol TimeViewControllerDelegate <NSObject>
+
+- (void)timerSetSingle:(NSDate*)timeStr;
+
+@end
+
+
+@interface TimeViewController : UIViewController<UITextFieldDelegate>
 {
     UIView *timeView;
     NSString *hourStr;
     NSString *minute;
+    NSString *second;
+    NSString *textFieldEdit;
+    NSInteger indexTextField;
+    
+    UITextField *hourTextField;
+    UITextField *minTextField;
+    UITextField *secondTextField;
 }
+
+@property (nonatomic, strong) id<TimeViewControllerDelegate> delegate;
 
 @end

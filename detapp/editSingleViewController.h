@@ -10,8 +10,9 @@
 #import "socketController.h"
 #import "CustomView.h"
 #import "CustomViewYuan.h"
+#import "TimeViewController.h"
 
-@interface editSingleViewController : UIViewController<socketControllerDelegate>
+@interface editSingleViewController : UIViewController<socketControllerDelegate, TimeViewControllerDelegate>
 {
     CustomViewYuan *showColorView;
     UIImage *colorImage;

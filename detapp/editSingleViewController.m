@@ -11,8 +11,6 @@
 #import "CustomView.h"
 #import "CustomViewYuan.h"
 #import "public.h"
-#import "timeViewController.h"
-#import "TimeViewController.h"
 
 
 @interface editSingleViewController ()
@@ -228,12 +226,12 @@
             Byte byte[] = {0x16,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x82,0x0D,0x02,singleByte[2],singleByte[3],0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,0x01};
             adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
             isLight = 1;
-            [sender setBackgroundImage:[UIImage imageNamed:@"on_btn"] forState:UIControlStateNormal];
+            [openImg setBackgroundImage:[UIImage imageNamed:@"on_btn"] forState:UIControlStateNormal];
         } else if (isLight == 1) {
             Byte byte[] = {0x16,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x82,0x0D,0x02,singleByte[2],singleByte[3],0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,0x00};
             adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
             isLight = 0;
-            [sender setBackgroundImage:[UIImage imageNamed:@"off_btn"] forState:UIControlStateNormal];
+            [openImg setBackgroundImage:[UIImage imageNamed:@"off_btn"] forState:UIControlStateNormal];
         }
     }
     
@@ -264,7 +262,6 @@
     
     Byte byte[] = {0x19,0x00,SOCKETLAST.sn4,SOCKETLAST.sn3,SOCKETLAST.sn2,SOCKETLAST.sn1,0xFE,0x84,0x10,0x02,singleByte[2],singleByte[3],0x00,0x00,0x00,0x00,0x00,0x00,0x0B,0x00,0x00,colorHex,lightHex,0x00,0x00};
     NSData *adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
-    NSLog(@"colorValueNSData %@ ",adata);
     [SOCKETLAST writeData:adata];
 }
 
@@ -323,13 +320,11 @@
     if (diff == 0.f) {
         btyeRGB[0] = 0.f;
         btyeRGB[1] = 0.f;
-        NSLog(@"diff = 0");
     } else {
         if (btyeRGB[2] < 0.5) {NSLog(@"diff = 0.5");
             btyeRGB[1] = (diff / (max + min)) * 100;
         } else {
             btyeRGB[1] = diff / ((2 - max - min)) * 100;
-            NSLog(@"diff > 0.5 %f", btyeRGB[1]);
         }
         r_dist = (max - R) / diff;
         g_dist = (max - G) / diff;
@@ -349,7 +344,6 @@
             btyeRGB[0] -= 360;
         }
     }
-    NSLog(@"diff sss 0.5 %f", btyeRGB[1]);
     return btyeRGB;
 }
 
@@ -398,6 +392,7 @@
 - (void)setTimeViewFunction
 {
     TimeViewController *timeViewC = [[TimeViewController alloc] init];
+    timeViewC.delegate = self;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:timeViewC];
     nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     nav.view.backgroundColor = [UIColor blackColor];
@@ -406,7 +401,12 @@
     [self presentViewController:nav animated:NO completion:nil];
 }
 
-
+-(void)timerSetSingle:(NSDate *)timeStr
+{
+    NSTimeInterval futureInterval = [timeStr timeIntervalSinceNow];
+    [NSTimer scheduledTimerWithTimeInterval:futureInterval target:self selector:@selector(setOpen:) userInfo:nil repeats:NO];
+    NSLog(@"timeStr %f", futureInterval);
+}
 
 #pragma mark - sigle control
 
@@ -426,6 +426,7 @@
 #pragma mark socketControllerDelegate
 -(void)readData:(NSData *)data remoteType:(NSString *)type
 {
+    NSLog(@"socketController %@", data);
 //    Byte *singleByte = (Byte *)[data bytes];
 //    if (singleByte[0] == 0x07) {
 //        if (singleByte[5] == 0x01) {

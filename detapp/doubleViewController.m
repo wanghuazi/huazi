@@ -40,7 +40,7 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:itemImageView];
     self.navigationItem.rightBarButtonItem = backButton;
     
-    SOCKETLAST.doubleArr = [[NSMutableArray alloc] init];
+    SOCKETLAST.doubleArr = [NSMutableArray array];
     NSData *adata;
     if (SOCKETLAST.typeSocket == 1) {
         Byte byte[] = {0x0E, 0x00, 0x0c, 0x00,0x08, 0x00,0x08, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x81};
@@ -107,17 +107,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"singleCell";
+    static NSString *cellIdentifier = @"doubleCell";
     
     doubleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
+    
+    if (!cell) {
         cell = [[doubleTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     if ([SOCKETLAST.doubleArr firstObject]) {
-        [cell createCell:[SOCKETLAST.doubleArr objectAtIndex:indexPath.row]];
+        [cell createCell:[SOCKETLAST.doubleArr objectAtIndex:indexPath.row] andRow:indexPath.row];
     }
-    
     return cell;
 }
 

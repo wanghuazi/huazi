@@ -21,13 +21,21 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         doubleWithData = [NSData data];
+        UILabel *colorInfo = [[UILabel alloc] initWithFrame:CGRectMake(80, 40, 150, 20)];
+        colorInfo.tag = 232323;
+        [self.contentView addSubview:colorInfo];
+        
+        UIImageView *leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 70, 70)];
+        leftImageView.tag = 232322;
+        [self.contentView addSubview:leftImageView];
         return self;
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     return self;
 }
 
-- (void)createCell:(NSData*)data{
+- (void)createCell:(NSData*)data andRow:(NSInteger)index{
+    NSArray *testArr = [NSArray arrayWithObjects:@"hello", @"shabe", @"hundong", nil];
     doubleWithData = data;
     Byte *doubleByte = (Byte*)[doubleWithData bytes];
 //    Byte nameByte[singleByte[10]];
@@ -38,28 +46,20 @@
 //    NSString *nameStr = [public stringGB2312FromHex:asdata];
     
     Byte nameByte[doubleByte[4]];
+    
     for (integer_t i=0; i<doubleByte[4]; i++) {
         nameByte[i] = doubleByte[5+i];
     }
     NSData *asdata = [[NSData alloc] initWithBytes:nameByte length:sizeof(nameByte)];
     NSString *nameStr = [public stringGB2312FromHex:asdata];
 //    NSString *nameStr = [[NSString alloc] initWithData:asdata encoding:NSUTF8StringEncoding];
-    NSLog(@"doubleByte %@", nameStr);
-    
-//    UILabel *infoTitle = [[UILabel alloc] initWithFrame:CGRectMake(80, 17, 150, 20)];
-//    infoTitle.text = nameStr;
-//    [self.contentView addSubview:infoTitle];
     
     UIImage *leftImage = [UIImage imageNamed:@"bangongshi"];
-    UIImageView *leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 70, 70)];
-    leftImageView.image = leftImage;
-    [self.contentView addSubview:leftImageView];
+    UIImageView *groupImageView = (UIImageView*)[self viewWithTag:232322];
+    groupImageView.image = leftImage;
     
-    
-    UILabel *colorInfo = [[UILabel alloc] initWithFrame:CGRectMake(80, 40, 150, 20)];
-    colorInfo.text =nameStr;
-    [self.contentView addSubview:colorInfo];
-
+    UILabel *groupLabel = (UILabel*)[self viewWithTag:232323];
+    groupLabel.text =nameStr;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -20,6 +20,27 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         openWithArr = [NSMutableArray array];
+        
+        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(80, 17, 150, 20)];
+        title.tag = 201507061;
+        [self.contentView addSubview:title];
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 70, 70)];
+        imageView.tag = 201507062;
+        [self.contentView addSubview:imageView];
+        
+        UILabel *colorInfo = [[UILabel alloc] initWithFrame:CGRectMake(80, 40, 40, 20)];
+        colorInfo.tag = 201507063;
+        [self.contentView addSubview:colorInfo];
+        
+        CustomView *custom = [[CustomView alloc]initWithFrame:CGRectMake(120, 40, 20, 20)];
+        custom.tag = 201507064;
+        [self.contentView addSubview:custom];
+        
+        UIButton *openControl = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH-50, 20, 30, 30)];
+        [openControl setTag:321];
+        [self.contentView addSubview:openControl];
+        
         return self;
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -73,41 +94,34 @@
         }
         NSData *asdata = [[NSData alloc] initWithBytes:nameByte length:sizeof(nameByte)];
         NSString *nameStr = [public stringGB2312FromHex:asdata];
-        UILabel *infoTitle = [[UILabel alloc] initWithFrame:CGRectMake(80, 17, 150, 20)];
+        UILabel *infoTitle = (UILabel*)[self viewWithTag:201507061];
         infoTitle.text = nameStr;
-        [self.contentView addSubview:infoTitle];
-        
         
         UIImage *leftImage = [UIImage imageNamed:@"deng"];
-        UIImageView *leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 70, 70)];
+        UIImageView *leftImageView = (UIImageView*)[self viewWithTag:201507062];
         leftImageView.image = leftImage;
-        [self.contentView addSubview:leftImageView];
         
+        UILabel *colorLabel = (UILabel*)[self viewWithTag:201507063];
+        colorLabel.text = @"颜色";
         
-        UILabel *colorInfo = [[UILabel alloc] initWithFrame:CGRectMake(80, 40, 40, 20)];
-        colorInfo.text = @"颜色";
-        [self.contentView addSubview:colorInfo];
-        
-        CustomView *customView = [[CustomView alloc]initWithFrame:CGRectMake(120, 40, 20, 20)];
-        [self.contentView addSubview:customView];
+        CustomView *customView = (CustomView*)[self viewWithTag:201507064];
         customView.isRing = true;
         customView.color = RGB(255, 0, 0, 0.8);
         
         
-        UIButton *openControl = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH-50, 20, 30, 30)];
-        [openControl setTag:321];
-        [openControl addTarget:self action:@selector(setOpen:) forControlEvents:UIControlEventTouchUpInside];
+        UIButton *openbtn = (UIButton*)[self viewWithTag:321];
+        [openbtn addTarget:self action:@selector(setOpen:) forControlEvents:UIControlEventTouchUpInside];
         if (arrWithData.count == 2) {
             NSData *dataOpen = [arrWithData objectAtIndex:1];
             Byte *byteOpen = (Byte *)[dataOpen bytes];
             if (byteOpen[5] == 0x01) {
-                [openControl setBackgroundImage:[UIImage imageNamed:@"on_btn"] forState:UIControlStateNormal];
+                [openbtn setBackgroundImage:[UIImage imageNamed:@"on_btn"] forState:UIControlStateNormal];
                 isLight = 1;
             } else {
-                [openControl setBackgroundImage:[UIImage imageNamed:@"off_btn"] forState:UIControlStateNormal];
+                [openbtn setBackgroundImage:[UIImage imageNamed:@"off_btn"] forState:UIControlStateNormal];
                 isLight = 0;
             }
-            [self.contentView addSubview:openControl];
+            
         }
     }
 

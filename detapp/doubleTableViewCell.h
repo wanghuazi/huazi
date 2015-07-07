@@ -18,6 +18,6 @@
     
 }
 @property (nonatomic, retain) NSData *cellData;
-- (void) createCell:(NSData*)data;
+- (void) createCell:(NSData*)data andRow:(NSInteger)index;
 
 @end

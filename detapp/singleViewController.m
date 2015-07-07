@@ -79,6 +79,7 @@
 
 - (void)getSingleInfo
 {
+//    SOCKETLAST.singleArr = [NSMutableArray array];
     NSData *adata;
     if (SOCKETLAST.typeSocket == 1) {
         Byte byte[] = {0x0E, 0x00, 0x0c, 0x00,0x08, 0x00,0x08, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x81};
@@ -129,7 +130,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"numberOfRowsInSection %lu", (unsigned long)[SOCKETLAST.singleArr count]);
     return [SOCKETLAST.singleArr count];
 }
 
@@ -138,7 +138,7 @@
     static NSString *cellIdentifier = @"singleCell";
     
     sigleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
+    if (!cell) {
         cell = [[sigleTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
