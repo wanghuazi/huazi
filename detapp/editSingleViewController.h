@@ -26,6 +26,8 @@
     UIButton *openImg;
     NSData *singleInfo;
     NSData *openInfo;
+    UIButton *hourTextfield;
+    UIButton *minuteTextfield;
 }
 @property (nonatomic, retain) NSArray *singleData;
 

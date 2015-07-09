@@ -12,6 +12,7 @@
 #import "doubleTableViewCell.h"
 #import "socketController.h"
 #import "CustomView.h"
+#import "groupViewController.h"
 
 @interface doubleViewController ()
 
@@ -80,7 +81,8 @@
 #pragma mark - my function
 - (void)addGroup
 {
-    
+    groupViewController *editDobule = [[groupViewController alloc] init];
+    [self.navigationController pushViewController:editDobule animated:YES];
 }
 
 #pragma mark -
@@ -88,7 +90,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    editDoubleViewController *editDouble = [[editDoubleViewController alloc] init];
+    groupViewController *editDouble = [[groupViewController alloc] init];
     [self.navigationController pushViewController:editDouble animated:YES];
     editDouble.doubleData = [SOCKETLAST.doubleArr objectAtIndex:indexPath.row];
 }

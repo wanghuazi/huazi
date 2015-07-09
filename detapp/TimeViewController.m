@@ -43,7 +43,7 @@
     [timeLabelRow addSubview:hourTextField];
     hourTextField.delegate = self;
     if (!hourStr) {
-        hourStr = @"00";
+        hourStr = @"0";
     }
     hourTextField.text = hourStr;
     hourTextField.tag = 201507061;
@@ -108,11 +108,17 @@
     [reductionBtn addTarget:self action:@selector(reductionTime) forControlEvents:UIControlEventTouchUpInside];
     [timeView addSubview:reductionBtn];
     
-    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake((APP_WIDTH-250)/2, 340, 250, 60)];
+    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake((APP_WIDTH-250)/2, 340, 110, 60)];
     closeBtn.backgroundColor = [UIColor redColor];
     [closeBtn setTitle:@"确定" forState:UIControlStateNormal];
     [closeBtn addTarget:self action:@selector(closeTimeView) forControlEvents:UIControlEventTouchUpInside];
     [timeView addSubview:closeBtn];
+    
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake((APP_WIDTH-250)/2+140, 340, 110, 60)];
+    cancelBtn.backgroundColor = [UIColor redColor];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn addTarget:self action:@selector(cancelTimeView) forControlEvents:UIControlEventTouchUpInside];
+    [timeView addSubview:cancelBtn];
 
     // Do any additional setup after loading the view.
 }
@@ -145,31 +151,43 @@
 #pragma mark - close function
 - (void)plusTime
 {
-    UITextField *context = (UITextField*)[self.view viewWithTag:indexTextField];
-    if (indexTextField == 201507061) {
-        if ([context.text integerValue] < 24) {
-            context.text = [NSString stringWithFormat:@"%d", [context.text integerValue]+1];
+    if (indexTextField != 0) {
+        UITextField *context = (UITextField*)[self.view viewWithTag:indexTextField];
+        if (indexTextField == 201507061) {
+            if ([context.text integerValue] < 24) {
+                context.text = [NSString stringWithFormat:@"%d", [context.text integerValue]+1];
+            }
+        } else {
+            if ([context.text integerValue] < 60) {
+                context.text = [NSString stringWithFormat:@"%d", [context.text integerValue]+1];
+            }
         }
-    } else {
-        if ([context.text integerValue] < 60) {
-            context.text = [NSString stringWithFormat:@"%d", [context.text integerValue]+1];
-        }
+    } else  {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误提示" message:@"请选择输入框" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
     }
-    
 }
 
 - (void)reductionTime
 {
-    UITextField *context = (UITextField*)[self.view viewWithTag:indexTextField];
-    if ([context.text integerValue] != 0 ) {
-        context.text = [NSString stringWithFormat:@"%d", [context.text integerValue]-1];
+    if (indexTextField != 0) {
+        UITextField *context = (UITextField*)[self.view viewWithTag:indexTextField];
+        if ([context.text integerValue] != 0 ) {
+            context.text = [NSString stringWithFormat:@"%d", [context.text integerValue]-1];
+        }
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误提示" message:@"请选择输入框" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
     }
-    
 }
 
 - (void)closeTimeView
 {
     [self timer];
+}
+
+- (void)cancelTimeView
+{
     [self dismissViewControllerAnimated:YES completion:nil];
     self.navigationController.navigationBar.hidden = NO;
 }
@@ -187,10 +205,13 @@
     NSDate *futureDate = [future dateFromString:timeStr];
     NSTimeInterval futureInterval = [futureDate timeIntervalSinceNow];
     if (futureInterval <= 0) {
-        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误提示" message:@"请输入正确时间" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
     } else  {
         if ([self.delegate respondsToSelector:@selector(timerSetSingle:)]) {
             [self.delegate timerSetSingle:futureDate];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            self.navigationController.navigationBar.hidden = NO;
         }
     }
     

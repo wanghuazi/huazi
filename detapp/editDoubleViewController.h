@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "socketController.h"
 
-@interface editDoubleViewController : UIViewController
+@interface editDoubleViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,socketControllerDelegate>
 {
     UITableView *listWithSingle;
+    NSInteger singleOpenIndex;
+    UITableView *singleTable;
 }
 
 @property (nonatomic, retain) NSData *doubleData;

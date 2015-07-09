@@ -17,6 +17,7 @@
 @synthesize snArr;
 @synthesize singleArr;
 @synthesize doubleArr;
+@synthesize groupArr;
 
 static socketController *socketConnect = nil;
 
@@ -24,6 +25,7 @@ static socketController *socketConnect = nil;
 {
     self = [super init];
 //    singleArr = [[NSMutableArray alloc] init];
+    groupArr = [NSMutableArray array];
     return self;
 }
 

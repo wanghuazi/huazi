@@ -35,7 +35,6 @@
 }
 
 - (void)createCell:(NSData*)data andRow:(NSInteger)index{
-    NSArray *testArr = [NSArray arrayWithObjects:@"hello", @"shabe", @"hundong", nil];
     doubleWithData = data;
     Byte *doubleByte = (Byte*)[doubleWithData bytes];
 //    Byte nameByte[singleByte[10]];

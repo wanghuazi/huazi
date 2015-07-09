@@ -149,7 +149,7 @@
     [timeView addSubview:openImg];
     
     
-    UIButton *hourTextfield = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH*0.0312, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
+    hourTextfield = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH*0.0312, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
     hourTextfield.backgroundColor = RGB(214,216,217,1);
     [self.view addSubview:hourTextfield];
     [hourTextfield addTarget:self action:@selector(setTimeViewFunction) forControlEvents:UIControlEventTouchUpInside];
@@ -158,7 +158,7 @@
     textLabel.text = @"至";
     [self.view addSubview:textLabel];
     
-    UIButton *minuteTextfield = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH*0.586, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
+    minuteTextfield = [[UIButton alloc] initWithFrame:CGRectMake(APP_WIDTH*0.586, APP_HEIGHT*0.889, APP_WIDTH*0.375, APP_HEIGHT*0.07)];
     minuteTextfield.backgroundColor = RGB(214,216,217,1);
     [self.view addSubview:minuteTextfield];
     [minuteTextfield addTarget:self action:@selector(setTimeViewFunction) forControlEvents:UIControlEventTouchUpInside];
@@ -397,15 +397,20 @@
     nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     nav.view.backgroundColor = [UIColor blackColor];
     [nav.view setAlpha:0.8];
-//    nav.navigationBarHidden = YES;
     [self presentViewController:nav animated:NO completion:nil];
 }
 
 -(void)timerSetSingle:(NSDate *)timeStr
 {
+    NSDateFormatter *future = [NSDateFormatter new];
+    future.dateFormat = @"d号 H:m:s";
+    NSString *futureStr = [future stringFromDate:timeStr];
+    NSDate *nowDate = [NSDate date];
+    NSString *nowStr = [future stringFromDate:nowDate];
+    [hourTextfield setTitle:nowStr forState:UIControlStateNormal];
+    [minuteTextfield setTitle:futureStr forState:UIControlStateNormal];
     NSTimeInterval futureInterval = [timeStr timeIntervalSinceNow];
     [NSTimer scheduledTimerWithTimeInterval:futureInterval target:self selector:@selector(setOpen:) userInfo:nil repeats:NO];
-    NSLog(@"timeStr %f", futureInterval);
 }
 
 #pragma mark - sigle control

@@ -14,6 +14,11 @@
 		981F19DB1B28827E0044EC3D /* multi-light_control_off123@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 981F19D91B28827E0044EC3D /* multi-light_control_off123@2x.png */; };
 		981F19DC1B28827E0044EC3D /* single_light_control_on123@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 981F19DA1B28827E0044EC3D /* single_light_control_on123@2x.png */; };
 		981F19DF1B2886420044EC3D /* CustomViewYuan.m in Sources */ = {isa = PBXBuildFile; fileRef = 981F19DE1B2886420044EC3D /* CustomViewYuan.m */; };
+		9823CECC1B4BA020009A2EAA /* delect_box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9823CECB1B4BA020009A2EAA /* delect_box@2x.png */; };
+		9823CED81B4C0CD1009A2EAA /* groupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823CED71B4C0CD1009A2EAA /* groupViewController.m */; };
+		9823CEDB1B4C0D50009A2EAA /* groupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9823CEDA1B4C0D50009A2EAA /* groupTableViewCell.m */; };
+		9823CEDD1B4C247E009A2EAA /* minus_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9823CEDC1B4C247E009A2EAA /* minus_off@2x.png */; };
+		9823CEDF1B4C2483009A2EAA /* add_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9823CEDE1B4C2483009A2EAA /* add_on@2x.png */; };
 		9829B1A51B00E77C00D1963E /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9829B19A1B00E77C00D1963E /* RECommonFunctions.m */; };
 		9829B1A61B00E77C00D1963E /* REFrostedContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9829B19C1B00E77C00D1963E /* REFrostedContainerViewController.m */; };
 		9829B1A71B00E77C00D1963E /* REFrostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9829B19E1B00E77C00D1963E /* REFrostedViewController.m */; };
@@ -124,6 +129,13 @@
 		981F19DA1B28827E0044EC3D /* single_light_control_on123@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "single_light_control_on123@2x.png"; sourceTree = "<group>"; };
 		981F19DD1B2886420044EC3D /* CustomViewYuan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomViewYuan.h; sourceTree = "<group>"; };
 		981F19DE1B2886420044EC3D /* CustomViewYuan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomViewYuan.m; sourceTree = "<group>"; };
+		9823CECB1B4BA020009A2EAA /* delect_box@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delect_box@2x.png"; sourceTree = "<group>"; };
+		9823CED61B4C0CD1009A2EAA /* groupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = groupViewController.h; sourceTree = "<group>"; };
+		9823CED71B4C0CD1009A2EAA /* groupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = groupViewController.m; sourceTree = "<group>"; };
+		9823CED91B4C0D50009A2EAA /* groupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = groupTableViewCell.h; sourceTree = "<group>"; };
+		9823CEDA1B4C0D50009A2EAA /* groupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = groupTableViewCell.m; sourceTree = "<group>"; };
+		9823CEDC1B4C247E009A2EAA /* minus_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "minus_off@2x.png"; sourceTree = "<group>"; };
+		9823CEDE1B4C2483009A2EAA /* add_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_on@2x.png"; sourceTree = "<group>"; };
 		9829B1991B00E77C00D1963E /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
 		9829B19A1B00E77C00D1963E /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
 		9829B19B1B00E77C00D1963E /* REFrostedContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REFrostedContainerViewController.h; sourceTree = "<group>"; };
@@ -353,7 +365,10 @@
 		9840973D1B36A30800F5A360 /* double */ = {
 			isa = PBXGroup;
 			children = (
+				9823CECB1B4BA020009A2EAA /* delect_box@2x.png */,
+				9823CEDE1B4C2483009A2EAA /* add_on@2x.png */,
 				9861CB721B3857BB0039601A /* add_btn@2x.png */,
+				9823CEDC1B4C247E009A2EAA /* minus_off@2x.png */,
 				9840973E1B36A31A00F5A360 /* bangongshi.png */,
 			);
 			name = double;
@@ -403,6 +418,10 @@
 				9875AFFD1B0A54FA00E2444A /* editDoubleViewController.h */,
 				9875AFFE1B0A54FA00E2444A /* editDoubleViewController.m */,
 				9875AFFF1B0A54FA00E2444A /* editDoubleViewController.xib */,
+				9823CED91B4C0D50009A2EAA /* groupTableViewCell.h */,
+				9823CEDA1B4C0D50009A2EAA /* groupTableViewCell.m */,
+				9823CED61B4C0CD1009A2EAA /* groupViewController.h */,
+				9823CED71B4C0CD1009A2EAA /* groupViewController.m */,
 			);
 			name = doubleController;
 			sourceTree = "<group>";
@@ -757,11 +776,14 @@
 				9829B1B11B010EFA00D1963E /* backward_btn_green@2x.png in Resources */,
 				984097411B381EBA00F5A360 /* DET-03@2x.png in Resources */,
 				981F19DB1B28827E0044EC3D /* multi-light_control_off123@2x.png in Resources */,
+				9823CEDF1B4C2483009A2EAA /* add_on@2x.png in Resources */,
 				9879955D1B04EC7B0020F307 /* single_light_control_off@2x.png in Resources */,
 				987E379E1B1803C900CECAFD /* color_bar@2x.png in Resources */,
 				9861CB6A1B384EAB0039601A /* color_bgbobt@2x.png in Resources */,
 				985F52C51B27241D00C8D1C3 /* DET-08@2x.png in Resources */,
+				9823CEDD1B4C247E009A2EAA /* minus_off@2x.png in Resources */,
 				987995591B04EC550020F307 /* mainpage_off@2x.png in Resources */,
+				9823CECC1B4BA020009A2EAA /* delect_box@2x.png in Resources */,
 				98A75F0B1AF11D840015E89A /* LaunchScreen.xib in Resources */,
 				98A75F081AF11D840015E89A /* Images.xcassets in Resources */,
 				987E37AA1B18516600CECAFD /* set_time_minus@2x.png in Resources */,
@@ -820,9 +842,11 @@
 				98A75EFD1AF11D840015E89A /* main.m in Sources */,
 				9829B1A91B00E77C00D1963E /* UIView+REFrostedViewController.m in Sources */,
 				98A75F601AF124A20015E89A /* AsyncSocket.m in Sources */,
+				9823CEDB1B4C0D50009A2EAA /* groupTableViewCell.m in Sources */,
 				981F19DF1B2886420044EC3D /* CustomViewYuan.m in Sources */,
 				9829B1A51B00E77C00D1963E /* RECommonFunctions.m in Sources */,
 				9829B1A71B00E77C00D1963E /* REFrostedViewController.m in Sources */,
+				9823CED81B4C0CD1009A2EAA /* groupViewController.m in Sources */,
 				98EC11E61B300CA80013D11D /* TimeViewController.m in Sources */,
 				9875AFE41B09DE1E00E2444A /* sceneViewController.m in Sources */,
 				984BB28D1B06F5D5003CBCF6 /* socketController.m in Sources */,

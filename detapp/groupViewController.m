@@ -1,51 +1,44 @@
 //
-//  editDoubleViewController.m
+//  testViewController.m
 //  detapp
 //
-//  Created by wanghaohua on 15/5/19.
+//  Created by wanghaohua on 15/6/22.
 //  Copyright (c) 2015年 det. All rights reserved.
 //
 
-#import "editDoubleViewController.h"
+#import "groupViewController.h"
 #import "Header.h"
 #import "groupTableViewCell.h"
+#import "socketController.h"
+#import "CustomView.h"
 
-@interface editDoubleViewController ()
 
-@end
-
-@implementation editDoubleViewController
+@implementation groupViewController
+@synthesize titles;
 @synthesize doubleData;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"组合编辑";
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"color_background"]]];
-    SOCKETLAST.delegate = self;
-    [self getSingleInfo];
     
-    [self.tabBarController.tabBar setHidden:YES];
+    self.automaticallyAdjustsScrollViewInsets=NO;
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"color_bgtitle"]]];
     //修改navigattionbar
     [self.navigationController.navigationBar setHidden:NO];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.clipsToBounds = YES;
-    //修改leftBarButtonItem样式
-    UIImageView *itemImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backward_btn"]];
-    UITapGestureRecognizer *goBackTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goback)];
-    itemImageView.userInteractionEnabled = YES;
-    [itemImageView addGestureRecognizer:goBackTap];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:itemImageView];
-    self.navigationItem.leftBarButtonItem = backButton;
     
     
-    singleTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, APP_WIDTH, APP_HEIGHT)];
-    singleTable.dataSource=self;
-    singleTable.delegate=self;
-    singleTable.separatorStyle=UITableViewCellSeparatorStyleNone;
-    singleTable.backgroundColor=[UIColor clearColor];
-    [self.view addSubview:singleTable];
-    singleTable.tableHeaderView = [self tableHeader];
+    singleTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, APP_WIDTH, APP_HEIGHT)];
+    singleTableView.delegate = self;
+    singleTableView.dataSource = self;
+    [self.view addSubview:singleTableView];
+    [singleTableView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"color_bgbobt"]]];
     
+    SOCKETLAST.delegate = self;
+    singleOpenIndex = 0;
+    SOCKETLAST.singleArr = [[NSMutableArray alloc] init];
+    singleTableView.tableHeaderView = [self tableHeader];
 }
 
 - (UIView*)tableHeader
@@ -76,54 +69,44 @@
     return headerView;
 }
 
-- (void)goback
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-#pragma mark -
-#pragma mark UITableView Datasource
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 105;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [SOCKETLAST.singleArr count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellIdentifier = @"groupEditCell";
-    
-    groupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[groupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+- (NSString *)stringFromHexString:(NSString *)hexString { //
+    char *myBuffer = (char *)malloc((int)[hexString length] / 2 + 1);
+    bzero(myBuffer, [hexString length] / 2 + 1);
+    for (int i = 0; i < [hexString length] - 1; i += 2) {
+        unsigned int anInt;
+        NSString * hexCharStr = [hexString substringWithRange:NSMakeRange(i, 2)];
+        NSScanner * scanner = [[NSScanner alloc] initWithString:hexCharStr];
+        [scanner scanHexInt:&anInt];
+        myBuffer[i / 2] = (char)anInt;
     }
-    
-    if ([SOCKETLAST.singleArr firstObject]) {
-        [cell createCell:[SOCKETLAST.singleArr objectAtIndex:indexPath.row]];
+    NSString *unicodeString = [NSString stringWithCString:myBuffer encoding:4];
+    return unicodeString;
+}
+
+- (NSString *)hexStringFromString:(NSString *)string{
+    NSData *myD = [string dataUsingEncoding:NSUTF8StringEncoding];
+    Byte *bytes = (Byte *)[myD bytes];
+    //下面是Byte 转换为16进制。
+    NSString *hexStr=@"";
+    for(int i=0;i<[myD length];i++)
+        
+    {
+        NSString *newHexStr = [NSString stringWithFormat:@"%x",bytes[i]&0xff];///16进制数
+        
+        if([newHexStr length]==1)
+            
+            hexStr = [NSString stringWithFormat:@"%@0%@",hexStr,newHexStr];
+        
+        else
+            
+            hexStr = [NSString stringWithFormat:@"%@%@",hexStr,newHexStr];
     }
-    
-    return cell;
+    return hexStr;
 }
 
 - (void)getSingleInfo
 {
-    SOCKETLAST.singleArr = [NSMutableArray array];
+//    SOCKETLAST.singleArr = [NSMutableArray array];
     NSData *adata;
     if (SOCKETLAST.typeSocket == 1) {
         Byte byte[] = {0x0E, 0x00, 0x0c, 0x00,0x08, 0x00,0x08, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFE, 0x81};
@@ -135,7 +118,57 @@
     
     [SOCKETLAST writeData:adata];
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.tabBarController.tabBar.hidden) {
+        [self.tabBarController.tabBar setHidden:NO];
+    }
+    [self getSingleInfo];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
+#pragma mark -
+#pragma mark UITableView Datasource
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 85;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [SOCKETLAST.singleArr count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"singleCell";
+    
+    groupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) {
+        cell = [[groupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    if ([SOCKETLAST.singleArr firstObject]) {
+        [cell createCell:[SOCKETLAST.singleArr objectAtIndex:indexPath.row]];
+        NSArray *tmpArr = [[NSArray alloc] initWithObjects:@"0", [SOCKETLAST.singleArr objectAtIndex:indexPath.row], nil];
+        [SOCKETLAST.groupArr addObject:tmpArr];
+    }
+    
+    return cell;
+}
+
 #pragma mark - get single open status
+
 - (void)getOpen:(NSData*)data
 {
     Byte *openByte = (Byte *)[data bytes];
@@ -143,7 +176,6 @@
     NSData *adata = [[NSData alloc] initWithBytes:byte length:sizeof(byte)];
     [SOCKETLAST writeData:adata];
 }
-
 
 #pragma mark socketControllerDelegate
 -(void)readData:(NSData *)data remoteType:(NSString *)type
@@ -180,12 +212,13 @@
         }
         singleOpenIndex++;
     }
-    [singleTable reloadData];
+    [singleTableView reloadData];
 }
 
 -(void)socketStatus:(BOOL)status
 {
     NSLog(@"login socketStatus");
 }
+
 
 @end
